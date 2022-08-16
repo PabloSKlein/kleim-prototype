@@ -32,6 +32,9 @@ def verboHTTPPorSimilaridade(verboentrada):
     print(similaridadeGrupo[indiceDoMaiorValor])
 
 
+for token in nlp("pessoa com nome maior que Pablo"):
+    print("text: {0}, pos: {1}", token.text, token.pos_)
+
 verboHTTPPorSimilaridade("cadastro")
 verboHTTPPorSimilaridade("consultar")
 verboHTTPPorSimilaridade("buscar")
