@@ -66,14 +66,15 @@ def getparametros(frase, metodo):
                 palavras.append(token)
         i = 0
         while i < len(palavras):
-            parametros += palavras[i].lower().replace("\"", "") + ", " + palavras[i].lower().replace("\"",
-                                                                                                     "") + "Valor, "
+            parametro = palavras[i].lower().replace("\"", "")
+            parametros += parametro + ", " + parametro + "Valor, "
             i += 2
 
         return parametros[:-2]
+    elif metodo == "POST":
+        return getparametrosComoJson(frase)
     else:
-        if metodo == "POST":
-            return getparametrosComoJson(frase)
+        return ""
 
 
 def getnomeParametro(frase):
@@ -103,8 +104,8 @@ def getparametrosComoJson(frase):
 
     i = 0
     while i < len(parametros):
-        parametrosString += jsonFormat.format(parametros[i].replace("\"", ""),
-                                              parametros[i].lower().replace("\"", "") + "Valor")
+        parametro = parametros[i].lower().replace("\"", "")
+        parametrosString += jsonFormat.format(parametro, parametro + "Valor")
         i += 2
 
     return parametrosString[:-1] + "}\""
@@ -267,19 +268,12 @@ def processaquando(linha):
 
 
 def getCodigoLinha(linha):
-    if linha.split()[0].lower().startswith("#"):
-        return ""
-    if linha.split()[0].lower() == "quando":
+    verboGherkin = linha.split()[0].lower()
+    if verboGherkin == "quando":
         return processaquando(linha)
-    elif linha.split()[0].lower() == "contexto":
+    elif verboGherkin == "contexto":
         return processacontexto(linha)
-    elif linha.split()[0].lower() == "funcionalidade:":
-        return ""
-    elif linha.split()[0].lower() == "cenario:":
-        return ""
-    elif linha.split()[0].lower() == "entao":
-        return processaentao(linha)
-    elif linha.split()[0].lower() == "e":
+    elif verboGherkin == "entao" or verboGherkin == "e":
         return processaentao(linha)
     return ""
 
